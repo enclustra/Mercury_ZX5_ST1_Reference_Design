@@ -1,5 +1,5 @@
 ---------------------------------------------------------------------------------------------------
--- Copyright (c) 2021 by Enclustra GmbH, Switzerland.
+-- Copyright (c) 2022 by Enclustra GmbH, Switzerland.
 --
 -- Permission is hereby granted, free of charge, to any person obtaining a copy of
 -- this hardware, software, firmware, and associated documentation files (the
@@ -55,7 +55,7 @@ entity Mercury_ZX5_ST1 is
     DDR_dqs_n                      : inout  std_logic_vector(3 downto 0);
     DDR_dqs_p                      : inout  std_logic_vector(3 downto 0);
     
-    -- Anios_0
+    -- Anios 0
     IO0_D0_P                       : inout   std_logic;
     IO0_D1_N                       : inout   std_logic;
     IO0_D2_P                       : inout   std_logic;
@@ -80,16 +80,35 @@ entity Mercury_ZX5_ST1 is
     IO0_D21_N                      : inout   std_logic;
     IO0_D22_P                      : inout   std_logic;
     IO0_D23_N                      : inout   std_logic;
-    IO0_CLK1_N                     : inout   std_logic;
-    IO0_CLK0_P                     : inout   std_logic;
+    IO0_CLK_N                      : inout   std_logic;
+    IO0_CLK_P                      : inout   std_logic;
     
-    -- DP
+    -- BUTTONS
+    BTN1_N                         : in      std_logic;
+    
+    -- Clock Generator CLK1
+    CLK_REF0_N                     : in      std_logic;
+    CLK_REF0_P                     : in      std_logic;
+    
+    -- Clock Generator CLK0
+    CLK_USR_N                      : in      std_logic;
+    CLK_USR_P                      : in      std_logic;
+    
+    -- DisplayPort
     DP_HPD                         : in      std_logic;
     DP_AUX_IN                      : in      std_logic;
     DP_AUX_OE                      : out     std_logic;
     DP_AUX_OUT                     : out     std_logic;
+    DP_LANE0_N                     : inout   std_logic;
+    DP_LANE3_N                     : inout   std_logic;
+    DP_LANE0_P                     : inout   std_logic;
+    DP_LANE3_P                     : inout   std_logic;
+    DP_LANE1_N                     : inout   std_logic;
+    DP_LANE2_N                     : inout   std_logic;
+    DP_LANE1_P                     : inout   std_logic;
+    DP_LANE2_P                     : inout   std_logic;
     
-    -- FMC
+    -- FMC HPC Connector
     FMC_LA02_N                     : inout   std_logic;
     FMC_LA02_P                     : inout   std_logic;
     FMC_LA03_N                     : inout   std_logic;
@@ -150,6 +169,22 @@ entity Mercury_ZX5_ST1 is
     FMC_LA32_P                     : inout   std_logic;
     FMC_LA33_N                     : inout   std_logic;
     FMC_LA33_P                     : inout   std_logic;
+    FMC_DP0_C2M_N                  : inout   std_logic;
+    FMC_DP0_C2M_P                  : inout   std_logic;
+    FMC_DP0_M2C_N                  : inout   std_logic;
+    FMC_DP0_M2C_P                  : inout   std_logic;
+    FMC_DP1_C2M_N                  : inout   std_logic;
+    FMC_DP1_C2M_P                  : inout   std_logic;
+    FMC_DP1_M2C_N                  : inout   std_logic;
+    FMC_DP1_M2C_P                  : inout   std_logic;
+    FMC_DP2_C2M_N                  : inout   std_logic;
+    FMC_DP2_C2M_P                  : inout   std_logic;
+    FMC_DP2_M2C_N                  : inout   std_logic;
+    FMC_DP2_M2C_P                  : inout   std_logic;
+    FMC_DP3_C2M_N                  : inout   std_logic;
+    FMC_DP3_C2M_P                  : inout   std_logic;
+    FMC_DP3_M2C_N                  : inout   std_logic;
+    FMC_DP3_M2C_P                  : inout   std_logic;
     FMC_LA00_CC_N                  : inout   std_logic;
     FMC_LA00_CC_P                  : inout   std_logic;
     FMC_LA01_CC_N                  : inout   std_logic;
@@ -162,14 +197,29 @@ entity Mercury_ZX5_ST1 is
     FMC_CLK0_M2C_P                 : inout   std_logic;
     FMC_CLK1_M2C_N                 : inout   std_logic;
     FMC_CLK1_M2C_P                 : inout   std_logic;
+    FMC_GCLK0_M2C_N                : inout   std_logic;
+    FMC_GCLK0_M2C_P                : inout   std_logic;
     
     -- HDMI
-    HDMI_HPD                       : inout   std_logic;
+    HDMI_HPD                       : in      std_logic;
     
-    -- I2C_PL
+    -- I2C FPGA
+    I2C_SCL_FPGA                   : inout   std_logic;
+    I2C_SDA_FPGA                   : inout   std_logic;
+    
+    -- I2C_MIPI_SEL
+    I2C_MIPI_SEL                   : inout   std_logic;
+    
+    -- I2C
     I2C_INT_N                      : in      std_logic;
-    I2C_SCL_PL                     : inout   std_logic;
-    I2C_SDA_PL                     : inout   std_logic;
+    I2C_SCL                        : inout   std_logic;
+    I2C_SDA                        : inout   std_logic;
+    
+    -- IO2
+    IO2_D0_P                       : inout   std_logic;
+    IO2_D1_N                       : inout   std_logic;
+    IO2_D2_P                       : inout   std_logic;
+    IO2_D3_N                       : inout   std_logic;
     
     -- IO3
     IO3_D0_P                       : inout   std_logic;
@@ -182,6 +232,8 @@ entity Mercury_ZX5_ST1 is
     IO3_D7_N                       : inout   std_logic;
     
     -- IO4
+    IO4_D0_P                       : inout   std_logic;
+    IO4_D1_N                       : inout   std_logic;
     IO4_D2_P                       : inout   std_logic;
     IO4_D3_N                       : inout   std_logic;
     IO4_D4_P                       : inout   std_logic;
@@ -192,8 +244,18 @@ entity Mercury_ZX5_ST1 is
     -- LED
     FPGA_LED0_N                    : out     std_logic;
     
-    -- OSC_100M
-    CLK_100_CAL                    : in      std_logic
+    -- Oscillator 100 MHz
+    CLK_100_CAL                    : in      std_logic;
+    
+    -- USB3
+    USB0_SSRX_N                    : inout   std_logic;
+    USB1_SSRX_N                    : inout   std_logic;
+    USB0_SSRX_P                    : inout   std_logic;
+    USB1_SSRX_P                    : inout   std_logic;
+    USB0_SSTX_N                    : inout   std_logic;
+    USB1_SSTX_N                    : inout   std_logic;
+    USB0_SSTX_P                    : inout   std_logic;
+    USB1_SSTX_P                    : inout   std_logic
   );
 end Mercury_ZX5_ST1;
 
@@ -227,6 +289,13 @@ architecture rtl of Mercury_ZX5_ST1 is
       DDR_dq              : inout  std_logic_vector(31 downto 0);
       DDR_dqs_n           : inout  std_logic_vector(3 downto 0);
       DDR_dqs_p           : inout  std_logic_vector(3 downto 0);
+      IRQ_I2C             : in     std_logic;
+      IIC_FPGA_sda_i      : in     std_logic;
+      IIC_FPGA_sda_o      : out    std_logic;
+      IIC_FPGA_sda_t      : out    std_logic;
+      IIC_FPGA_scl_i      : in     std_logic;
+      IIC_FPGA_scl_o      : out    std_logic;
+      IIC_FPGA_scl_t      : out    std_logic;
       IIC_sda_i           : in     std_logic;
       IIC_sda_o           : out    std_logic;
       IIC_sda_t           : out    std_logic;
@@ -242,6 +311,13 @@ architecture rtl of Mercury_ZX5_ST1 is
   ---------------------------------------------------------------------------------------------------
   signal Clk50            : std_logic;
   signal Rst_N            : std_logic;
+  signal IRQ_I2C          : std_logic;
+  signal IIC_FPGA_sda_i   : std_logic;
+  signal IIC_FPGA_sda_o   : std_logic;
+  signal IIC_FPGA_sda_t   : std_logic;
+  signal IIC_FPGA_scl_i   : std_logic;
+  signal IIC_FPGA_scl_o   : std_logic;
+  signal IIC_FPGA_scl_t   : std_logic;
   signal IIC_sda_i        : std_logic;
   signal IIC_sda_o        : std_logic;
   signal IIC_sda_t        : std_logic;
@@ -280,6 +356,13 @@ begin
       DDR_dq               => DDR_dq,
       DDR_dqs_n            => DDR_dqs_n,
       DDR_dqs_p            => DDR_dqs_p,
+      IRQ_I2C              => IRQ_I2C,
+      IIC_FPGA_sda_i       => IIC_FPGA_sda_i,
+      IIC_FPGA_sda_o       => IIC_FPGA_sda_o,
+      IIC_FPGA_sda_t       => IIC_FPGA_sda_t,
+      IIC_FPGA_scl_i       => IIC_FPGA_scl_i,
+      IIC_FPGA_scl_o       => IIC_FPGA_scl_o,
+      IIC_FPGA_scl_t       => IIC_FPGA_scl_t,
       IIC_sda_i            => IIC_sda_i,
       IIC_sda_o            => IIC_sda_o,
       IIC_sda_t            => IIC_sda_t,
@@ -288,10 +371,17 @@ begin
       IIC_scl_t            => IIC_scl_t
     );
   
-  I2C_SDA_PL <= IIC_sda_o when IIC_sda_t = '0' else 'Z';
-  IIC_sda_i <= I2C_SDA_PL;
-  I2C_SCL_PL <= IIC_scl_o when IIC_scl_t = '0' else 'Z';
-  IIC_scl_i <= I2C_SCL_PL;
+  I2C_SDA_FPGA <= IIC_FPGA_sda_o when IIC_FPGA_sda_t = '0' else 'Z';
+  IIC_FPGA_sda_i <= I2C_SDA_FPGA;
+  I2C_SCL_FPGA <= IIC_FPGA_scl_o when IIC_FPGA_scl_t = '0' else 'Z';
+  IIC_FPGA_scl_i <= I2C_SCL_FPGA;
+  
+  IRQ_I2C <= not I2C_INT_N;
+  I2C_SDA <= IIC_sda_o when IIC_sda_t = '0' else 'Z';
+  IIC_sda_i <= I2C_SDA;
+  I2C_SCL <= IIC_scl_o when IIC_scl_t = '0' else 'Z';
+  IIC_scl_i <= I2C_SCL;
+  
   process (Clk50)
   begin
     if rising_edge (Clk50) then
@@ -303,5 +393,5 @@ begin
     end if;
   end process;
   FPGA_LED0_N <= '0' when LedCount(LedCount'high) = '0' else 'Z';
-
+  
 end rtl;
