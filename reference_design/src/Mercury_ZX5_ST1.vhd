@@ -1,5 +1,5 @@
----------------------------------------------------------------------------------------------------
--- Copyright (c) 2022 by Enclustra GmbH, Switzerland.
+----------------------------------------------------------------------------------------------------
+-- Copyright (c) 2024 by Enclustra GmbH, Switzerland.
 --
 -- Permission is hereby granted, free of charge, to any person obtaining a copy of
 -- this hardware, software, firmware, and associated documentation files (the
@@ -17,43 +17,47 @@
 -- HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 -- OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 -- PRODUCT OR THE USE OR OTHER DEALINGS IN THE PRODUCT.
----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
 
----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
 -- libraries
----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
----------------------------------------------------------------------------------------------------
+library unisim;
+use unisim.vcomponents.all;
+
+----------------------------------------------------------------------------------------------------
 -- entity declaration
----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
 entity Mercury_ZX5_ST1 is
   
   port (
+    
     -- PS MIO Pins
-    FIXED_IO_mio                   : inout  std_logic_vector(53 downto 0);
-    FIXED_IO_ddr_vrn               : inout  std_logic;
-    FIXED_IO_ddr_vrp               : inout  std_logic;
-    FIXED_IO_ps_srstb              : inout  std_logic;
-    FIXED_IO_ps_clk                : inout  std_logic;
-    FIXED_IO_ps_porb               : inout  std_logic;
-    DDR_cas_n                      : inout  std_logic;
-    DDR_cke                        : inout  std_logic;
-    DDR_ck_n                       : inout  std_logic;
-    DDR_ck_p                       : inout  std_logic;
-    DDR_cs_n                       : inout  std_logic;
-    DDR_reset_n                    : inout  std_logic;
-    DDR_odt                        : inout  std_logic;
-    DDR_ras_n                      : inout  std_logic;
-    DDR_we_n                       : inout  std_logic;
-    DDR_ba                         : inout  std_logic_vector(2 downto 0);
-    DDR_addr                       : inout  std_logic_vector(14 downto 0);
-    DDR_dm                         : inout  std_logic_vector(3 downto 0);
-    DDR_dq                         : inout  std_logic_vector(31 downto 0);
-    DDR_dqs_n                      : inout  std_logic_vector(3 downto 0);
-    DDR_dqs_p                      : inout  std_logic_vector(3 downto 0);
+    FIXED_IO_mio                   : inout   std_logic_vector(53 downto 0);
+    FIXED_IO_ddr_vrn               : inout   std_logic;
+    FIXED_IO_ddr_vrp               : inout   std_logic;
+    FIXED_IO_ps_srstb              : inout   std_logic;
+    FIXED_IO_ps_clk                : inout   std_logic;
+    FIXED_IO_ps_porb               : inout   std_logic;
+    DDR_cas_n                      : inout   std_logic;
+    DDR_cke                        : inout   std_logic;
+    DDR_ck_n                       : inout   std_logic;
+    DDR_ck_p                       : inout   std_logic;
+    DDR_cs_n                       : inout   std_logic;
+    DDR_reset_n                    : inout   std_logic;
+    DDR_odt                        : inout   std_logic;
+    DDR_ras_n                      : inout   std_logic;
+    DDR_we_n                       : inout   std_logic;
+    DDR_ba                         : inout   std_logic_vector(2 downto 0);
+    DDR_addr                       : inout   std_logic_vector(14 downto 0);
+    DDR_dm                         : inout   std_logic_vector(3 downto 0);
+    DDR_dq                         : inout   std_logic_vector(31 downto 0);
+    DDR_dqs_n                      : inout   std_logic_vector(3 downto 0);
+    DDR_dqs_p                      : inout   std_logic_vector(3 downto 0);
     
     -- Anios 0
     IO0_D0_P                       : inout   std_logic;
@@ -261,9 +265,9 @@ end Mercury_ZX5_ST1;
 
 architecture rtl of Mercury_ZX5_ST1 is
 
-  ---------------------------------------------------------------------------------------------------
+  ----------------------------------------------------------------------------------------------------
   -- component declarations
-  ---------------------------------------------------------------------------------------------------
+  ----------------------------------------------------------------------------------------------------
   component Mercury_ZX5 is
     port (
       Clk50               : out    std_logic;
@@ -305,10 +309,18 @@ architecture rtl of Mercury_ZX5_ST1 is
     );
     
   end component Mercury_ZX5;
+  component IBUFDS is
+      port (
+        O : out STD_LOGIC;
+        I : in STD_LOGIC;
+        IB : in STD_LOGIC
+      );
+    end component IBUFDS;
+  
 
-  ---------------------------------------------------------------------------------------------------
+  ----------------------------------------------------------------------------------------------------
   -- signal declarations
-  ---------------------------------------------------------------------------------------------------
+  ----------------------------------------------------------------------------------------------------
   signal Clk50            : std_logic;
   signal Rst_N            : std_logic;
   signal IRQ_I2C          : std_logic;
@@ -325,12 +337,16 @@ architecture rtl of Mercury_ZX5_ST1 is
   signal IIC_scl_o        : std_logic;
   signal IIC_scl_t        : std_logic;
   signal LedCount         : unsigned(23 downto 0);
+  
+  ----------------------------------------------------------------------------------------------------
+  -- attribute declarations
+  ----------------------------------------------------------------------------------------------------
 
 begin
   
-  ---------------------------------------------------------------------------------------------------
+  ----------------------------------------------------------------------------------------------------
   -- processor system instance
-  ---------------------------------------------------------------------------------------------------
+  ----------------------------------------------------------------------------------------------------
   Mercury_ZX5_i: component Mercury_ZX5
     port map (
       Clk50                => Clk50,
@@ -370,6 +386,13 @@ begin
       IIC_scl_o            => IIC_scl_o,
       IIC_scl_t            => IIC_scl_t
     );
+  
+  CLK_USR_buf: component IBUFDS
+  port map (
+  	O => open,
+  	I => CLK_USR_P,
+  	IB => CLK_USR_N
+  );
   
   I2C_SDA_FPGA <= IIC_FPGA_sda_o when IIC_FPGA_sda_t = '0' else 'Z';
   IIC_FPGA_sda_i <= I2C_SDA_FPGA;

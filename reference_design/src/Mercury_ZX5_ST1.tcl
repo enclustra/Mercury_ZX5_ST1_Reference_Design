@@ -1,5 +1,5 @@
-# ----------------------------------------------------------------------------------
-# Copyright (c) 2022 by Enclustra GmbH, Switzerland.
+# ----------------------------------------------------------------------------------------------------
+# Copyright (c) 2024 by Enclustra GmbH, Switzerland.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy of
 # this hardware, software, firmware, and associated documentation files (the
@@ -17,8 +17,10 @@
 # HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # PRODUCT OR THE USE OR OTHER DEALINGS IN THE PRODUCT.
-# ----------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------
 
+set_property CFGBVS VCCO [current_design]
+set_property CONFIG_VOLTAGE 2.5 [current_design]
 set_property BITSTREAM.CONFIG.OVERTEMPPOWERDOWN ENABLE [current_design]
  
 # ----------------------------------------------------------------------------------
@@ -72,6 +74,14 @@ set_property -dict {PACKAGE_PIN F1    IOSTANDARD LVCMOS18  } [get_ports {DP_HPD}
 set_property -dict {PACKAGE_PIN U2    IOSTANDARD LVCMOS18  } [get_ports {DP_AUX_IN}]
 set_property -dict {PACKAGE_PIN F2    IOSTANDARD LVCMOS18  } [get_ports {DP_AUX_OE}]
 set_property -dict {PACKAGE_PIN U1    IOSTANDARD LVCMOS18  } [get_ports {DP_AUX_OUT}]
+# set_property PACKAGE_PIN Y4    [get_ports {DP_LANE0_N}] # GTP
+# set_property PACKAGE_PIN Y8    [get_ports {DP_LANE3_N}] # GTP
+# set_property PACKAGE_PIN W4    [get_ports {DP_LANE0_P}] # GTP
+# set_property PACKAGE_PIN W8    [get_ports {DP_LANE3_P}] # GTP
+# set_property PACKAGE_PIN AB3   [get_ports {DP_LANE1_N}] # GTP
+# set_property PACKAGE_PIN AB7   [get_ports {DP_LANE2_N}] # GTP
+# set_property PACKAGE_PIN AA3   [get_ports {DP_LANE1_P}] # GTP
+# set_property PACKAGE_PIN AA7   [get_ports {DP_LANE2_P}] # GTP
 
 # FMC HPC Connector
 set_property -dict {PACKAGE_PIN E7    IOSTANDARD LVCMOS18  } [get_ports {FMC_LA02_N}]
@@ -162,6 +172,8 @@ set_property -dict {PACKAGE_PIN B3    IOSTANDARD LVCMOS18  } [get_ports {FMC_CLK
 set_property -dict {PACKAGE_PIN B4    IOSTANDARD LVCMOS18  } [get_ports {FMC_CLK0_M2C_P}]
 set_property -dict {PACKAGE_PIN T1    IOSTANDARD LVCMOS18  } [get_ports {FMC_CLK1_M2C_N}]
 set_property -dict {PACKAGE_PIN T2    IOSTANDARD LVCMOS18  } [get_ports {FMC_CLK1_M2C_P}]
+# set_property PACKAGE_PIN V5    [get_ports {FMC_GCLK0_M2C_N}] # GTP
+# set_property PACKAGE_PIN U5    [get_ports {FMC_GCLK0_M2C_P}] # GTP
 
 # HDMI
 set_property -dict {PACKAGE_PIN AA11  IOSTANDARD LVCMOS25  } [get_ports {HDMI_HPD}]
@@ -179,6 +191,8 @@ set_property -dict {PACKAGE_PIN H8    IOSTANDARD LVCMOS18  } [get_ports {I2C_SCL
 set_property -dict {PACKAGE_PIN R8    IOSTANDARD LVCMOS18  } [get_ports {I2C_SDA}]
 
 # IO2
+# set_property PACKAGE_PIN U9    [get_ports {IO2_D0_P}] # GTP
+# set_property PACKAGE_PIN V9    [get_ports {IO2_D1_N}] # GTP
 set_property -dict {PACKAGE_PIN N6    IOSTANDARD LVCMOS18  } [get_ports {IO2_D2_P}]
 set_property -dict {PACKAGE_PIN N5    IOSTANDARD LVCMOS18  } [get_ports {IO2_D3_N}]
 
@@ -209,3 +223,11 @@ set_property -dict {PACKAGE_PIN H5    IOSTANDARD LVCMOS18  } [get_ports {FPGA_LE
 set_property -dict {PACKAGE_PIN Y17   IOSTANDARD LVCMOS25  } [get_ports {CLK_100_CAL}]
 
 # USB3
+# set_property PACKAGE_PIN AB9   [get_ports {USB0_SSRX_N}] # GTP
+# set_property PACKAGE_PIN Y6    [get_ports {USB1_SSRX_N}] # GTP
+# set_property PACKAGE_PIN AA9   [get_ports {USB0_SSRX_P}] # GTP
+# set_property PACKAGE_PIN W6    [get_ports {USB1_SSRX_P}] # GTP
+# set_property PACKAGE_PIN AB5   [get_ports {USB0_SSTX_N}] # GTP
+# set_property PACKAGE_PIN Y2    [get_ports {USB1_SSTX_N}] # GTP
+# set_property PACKAGE_PIN AA5   [get_ports {USB0_SSTX_P}] # GTP
+# set_property PACKAGE_PIN W2    [get_ports {USB1_SSTX_P}] # GTP
